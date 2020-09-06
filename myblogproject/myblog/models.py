@@ -1,16 +1,14 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
-from django.db import models
-
-# Create your models here.
-# 이미 배운 내용의 설명은 생략합니다.
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     pub_date = models.DateTimeField('date published')
     body = models.TextField()
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_posts')
 
     def __str__(self):
         return self.title

@@ -46,33 +46,6 @@
           <a href="{%url 'delete' post.id %}" class="btn btn-primary my-2">Delete</a>
         </div>
 
-        <div class="card my-4">
-          <div class="card-header">
-            <!-- Like-->
-            {% if user.is_authenticated %}
-            {% if user in post.like_users.all %}
-              <a href="{% url 'like' post.id %}"><i class="fas fa-heart"></i></a>
-            {% else %}
-              <a href="{% url 'like' post.id %}"><i class="far fa-heart"></i></a>
-            {% endif %}
-              <!--like user count-->
-              {{ post.like_users.count }}명이 좋아합니다.<br><br>
-                    
-            {% else %}
-            <i class="far fa-heart"></i> {{ post.like_users.count }}명이 좋아합니다.
-            <br>좋아요를 누르려면 로그인이 필요합니다.
-              
-            {% endif %}
-
-
-            
-
-            {% for likeuser in post.like_users.all %}
-            {{likeuser.username}}
-            {% endfor %}
-          </div>
-        </div>
-
         <!-- Comments Form -->
         <div class="card my-4">
           <h5 class="card-header">Leave a Comment:</h5>
@@ -88,7 +61,8 @@
         </div>
 
         <!-- Single Comment -->
-        {% for comment in post.comment_set.all %}
+        {% for comments in post.comment_set.all %}
+        {% if comments.id != comment.id %}
         <div class="media mb-4">
           <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
           <div class="media-body">            
@@ -100,6 +74,19 @@
             </div>
           </div>
         </div>
+        {% else %}
+        <div class="card-body">
+            <form action="{% url 'comments_update' post.pk comment.id %}" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <textarea class="form-control" rows="3" name="content">{{comment.content}}</textarea>
+              </div>
+              <div align="right">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+        </div>
+        {% endif %}
         {% endfor %}
 
       </div>

@@ -34,19 +34,19 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.sites', #추가
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myblog',
-    
-    #allauth 추가
+
+    #allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
 
-    #provider 구글 페이스북 카톡 깃허브 등 소셜로그인 제공업체 추가
+    #provider 구글 페이스북 카톡 깃허브 등 소셜로그인 제공업체
     'allauth.socialaccount.providers.google',
 ]
 
@@ -141,8 +141,12 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
 AUTHENTICATION_BACKENDS = (
+    #Needed to login by username in Django admin, regardless of 'allauth'
     'django.contrib.auth.backends.ModelBackend',
+    
+    # 'allauth' specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
